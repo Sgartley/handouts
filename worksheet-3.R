@@ -8,12 +8,12 @@ library(httr)
 
 # define the api host, path and query
 
-host <- ...
+host <- "https://api.census.gov"
 path <- '/data/2015/acs5'
-query <- list(...,
-              ...,
-              ...)
-response <- ...(url = host, path = path, query = query)
+query <- list("get" = 'NAME, AIANHH',
+              'for' = 'county',
+              'in' = 'state:24')
+response <- GET(url = host, path = path, query = query)
 
 # get a household income variable for tracts in MD
 ## http://api.census.gov/data/2015/acs5/variables/B19001_001E.json
@@ -40,13 +40,13 @@ df$B19001_001E <- ...(df$B19001_001E)
 library(acs)
 api.key.install(key = ...)
 
-geo <- ...(state='MD', county = '*', tract = '*')
-result <- acs.fetch(endyear = 2015, ..., ...)
+geo <- geo.make(state='MD', county = '*', tract = '*')
+result <- acs.fetch(endyear = 2015, geo = geo, table.number = "B19001")
 
 # wrestle response into a data frame
 
-df_geo <- data.frame(...)
-df_est <- data.frame(...)
+df_geo <- data.frame(resut@geography)
+df_est <- data.frame(result@estimate)
 df <- ...(df_geo, df_est)
 
 # visualize data
